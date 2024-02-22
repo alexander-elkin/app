@@ -81,4 +81,8 @@ jobs:
       - name: Build application
         run: |
              qmake ${{env.APP_NAME}}.pro CONFIG+=release
-             make -j$(nproc)
+             make -j$(nproc) apk
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build-dir
+          path: build/ # or path/to/artifact
