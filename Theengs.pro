@@ -264,7 +264,7 @@ macx {
 
 android {
     # ANDROID_TARGET_ARCH: [x86_64, armeabi-v7a, arm64-v8a]
-    #message("ANDROID_TARGET_ARCH: $$ANDROID_TARGET_ARCH")
+    message("ANDROID_TARGET_ARCH: $$ANDROID_TARGET_ARCH")
 
     # Bundle name
     QMAKE_TARGET_BUNDLE_PREFIX = com.theengs
