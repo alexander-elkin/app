@@ -34,20 +34,20 @@ jobs:
           submodules: recursive
 
       # Java environment (already installed in 'ubuntu-20.04')
-      #- name: Install JDK environment
-      #  uses: actions/setup-java@v2
-      #  with:
-      #    distribution: 'zulu'
-      #    java-version: '11'
+      - name: Install JDK environment
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
 
       # Android environment (already installed in 'ubuntu-20.04')
-      #- name: Setup Android SDK
-      #  uses: android-actions/setup-android@v2
-      #- name: Install Android SDK / NDK / tools
-      #  run: |
-      #       sdkmanager "platforms;android-34"
-      #       sdkmanager "ndk;26.1.10909125"
-      #       sdkmanager "build-tools;34.0.0"
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+      - name: Install Android SDK / NDK / tools
+        run: |
+             sdkmanager "platforms;android-34"
+             sdkmanager "ndk;26.1.10909125"
+             sdkmanager "build-tools;34.0.0"
 
       # Install Qt (Android & desktop)
       - name: Install Qt (Android & desktop)
@@ -74,16 +74,14 @@ jobs:
       - name: Build dependencies (from contribs script)
         run: |
              cd contribs/
-             python3 contribs_builder.py --qt-directory ${{env.Qt6_DIR}}/../.. --qt-version ${{env.QT_VERSION}} --mobile
+             python3 contribs_builder.py --qt-directory ${{env.Qt6_DIR}}/../.. --qt-version ${{env.QT_VERSION}} --targets=android_armv8
              cd ..
 
       # Build application
       - name: Build application
         run: |
-             #qmake ${{env.APP_NAME}}.pro CONFIG+=release
-             #make -j$(nproc)
-             qmake DEFINES+=QT_CONNECTIVITY_PATCHED             
-             make
+             qmake ${{env.APP_NAME}}.pro CONFIG+=release
+             make -j$(nproc)
              
       # Upload Android Artifacts
       - name: Upload artifacts
